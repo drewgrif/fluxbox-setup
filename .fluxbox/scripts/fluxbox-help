@@ -2,6 +2,16 @@
 
 # Parse fluxbox keys file and display keybindings with rofi
 
+# Determine the fluxbox directory based on script location
+# This works whether the script is in ~/GitHub/fluxbox-setup/.fluxbox/scripts/
+# or in ~/.fluxbox/scripts/ after installation
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+FLUXBOX_DIR="$(dirname "$SCRIPT_DIR")"
+
+# Use files relative to the script location
+KEYS_FILE="$FLUXBOX_DIR/keys"
+ROFI_THEME="$FLUXBOX_DIR/rofi/keybinds.rasi"
+
 # Extract keybindings with their descriptions from comments
 keybindings=$(awk '
     # Store comment for next line
@@ -67,7 +77,7 @@ keybindings=$(awk '
             desc = ""
         }
     }
-' ~/.fluxbox/keys | sort)
+' "$KEYS_FILE" | sort)
 
 # Display in rofi with keybinds theme
-echo "$keybindings" | rofi -dmenu -i -p "Fluxbox Keybindings" -theme ~/.fluxbox/rofi/keybinds.rasi
+echo "$keybindings" | rofi -dmenu -i -p "Fluxbox Keybindings" -theme "$ROFI_THEME"
