@@ -169,16 +169,16 @@ Keybindings are configured via Fluxbox's native configuration system.
 │   ├── autostart.sh
 │   ├── changevolume
 │   └── power
-└── wallpaper/
-    └── (wallpaper images)
-~/.config/dunst/
-└── dunstrc
-~/.config/rofi/
-├── config.rasi
-├── keybinds.rasi
-└── power.rasi
-~/.config/picom/
-└── picom.conf
+├── wallpaper/
+│   └── (wallpaper images)
+├── dunst/
+│   └── dunstrc
+├── rofi/
+│   ├── config.rasi
+│   ├── keybinds.rasi
+│   └── power.rasi
+└── picom/
+    └── picom.conf
 ```
 
 ### Terminal Configuration
