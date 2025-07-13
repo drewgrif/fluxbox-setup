@@ -1,0 +1,73 @@
+#!/bin/bash
+
+# Parse fluxbox keys file and display keybindings with rofi
+
+# Extract keybindings with their descriptions from comments
+keybindings=$(awk '
+    # Store comment for next line
+    /^#/ { 
+        # Remove leading # and whitespace
+        desc = $0
+        gsub(/^#[ \t]*/, "", desc)
+        next 
+    }
+    
+    # Empty line clears description
+    /^$/ { desc = ""; next }
+    
+    # Skip mouse bindings and non-key bindings
+    /^On[A-Z]/ { desc = ""; next }
+    
+    # Process keybindings
+    {
+        colon_pos = index($0, ":")
+        if (colon_pos > 0) {
+            binding = substr($0, 1, colon_pos - 1)
+            command = substr($0, colon_pos + 1)
+            
+            # Clean up whitespace
+            gsub(/^[ \t]+/, "", binding)
+            gsub(/[ \t]+$/, "", binding)
+            
+            # Convert Mod1 to Alt and Mod4 to Super for readability
+            gsub(/\<Mod1\>/, "Alt", binding)
+            gsub(/\<Mod4\>/, "Super", binding)
+            gsub(/^[ \t]+/, "", command)
+            gsub(/[ \t]+$/, "", command)
+            
+            # Use description if available, otherwise parse command
+            if (desc != "") {
+                display = desc
+            } else {
+                # Try to create a description from the command
+                if (command ~ /Exec/) {
+                    # Extract program name from Exec command
+                    match(command, /Exec[ \t]+([^ \t{]+)/, arr)
+                    if (arr[1] != "") {
+                        display = "Launch " arr[1]
+                    } else {
+                        display = command
+                    }
+                } else if (command ~ /Workspace [0-9]/) {
+                    match(command, /Workspace ([0-9]+)/, arr)
+                    display = "Switch to workspace " arr[1]
+                } else if (command ~ /SendToWorkspace/) {
+                    match(command, /SendToWorkspace ([0-9]+)/, arr)
+                    display = "Send window to workspace " arr[1]
+                } else if (command ~ /TakeToWorkspace/) {
+                    match(command, /TakeToWorkspace ([0-9]+)/, arr)
+                    display = "Move with window to workspace " arr[1]
+                } else {
+                    display = command
+                }
+            }
+            
+            # Format output
+            printf "%-25s │ %s\n", binding, display
+            desc = ""
+        }
+    }
+' ~/.fluxbox/keys | sort)
+
+# Display in rofi with keybinds theme
+echo "$keybindings" | rofi -dmenu -i -p "Fluxbox Keybindings" -theme ~/.fluxbox/rofi/keybinds.rasi

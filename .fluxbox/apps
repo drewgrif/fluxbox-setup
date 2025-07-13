@@ -1,0 +1,12 @@
+[app] (name=fbrun)
+  [Position]	(CENTER)	{0 0}
+  [Layer]	{2}
+[end]
+[app] (name=Navigator) (class=Firefox-esr) (role=browser)
+[end]
+[app] (name=fbpager) (class=fbpager)
+  [Position]	(CENTER)	{0 0}
+  [Layer]	{2}
+  [Deco]	{NONE}
+  [Sticky]	{yes}
+[end]
