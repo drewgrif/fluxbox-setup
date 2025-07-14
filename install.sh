@@ -161,7 +161,7 @@ PACKAGES_CORE=(
 )
 
 PACKAGES_UI=(
-    rofi dunst feh lxappearance network-manager-gnome
+    rofi dunst feh lxappearance network-manager-gnome xfce4-appfinder
 )
 
 PACKAGES_FILE_MANAGER=(

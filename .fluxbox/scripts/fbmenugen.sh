@@ -21,7 +21,7 @@ cp schema.pl ~/.config/fbmenugen/
 rm -rf /tmp/Linux-DesktopFiles /tmp/fbmenugen
 
 export PATH="$HOME/.local/bin:$PATH"
-fbmenugen
+fbmenugen -g
 
 
 
