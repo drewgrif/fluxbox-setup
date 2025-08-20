@@ -98,12 +98,10 @@ Mod4 f :Exec thunar
 Mod4 g :Exec gimp
 # Open volume mixer
 Mod4 v :Exec wezterm -e pulsemixer
+# Save clipboard to notes
+Shift Mod4 v :Exec bash -ic 'note clip && notify-send " Clipboard saved to notes"'
 # Show keybindings help
 Mod4 h :Exec ~/.fluxbox/scripts/fluxbox-help
-# Enable night light (redshift)
-Mod1 Mod4 r :Exec ~/scripts/redshift-on
-# Disable night light (redshift)
-Mod1 Mod4 b :Exec ~/scripts/redshift-off
 
 # Take a Fullscreen Screenshot
 Print :Exec flameshot full --path ~/Screenshots/
